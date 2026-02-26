@@ -9,7 +9,7 @@ import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, Unauthenticated } from "convex/react";
 
 const menuItems = [
-  { name: "Features", href: "#link" },
+  { name: "Dashboard", href: "/dashboard" },
   { name: "Solution", href: "#link" },
   { name: "Pricing", href: "#link" },
   { name: "About", href: "#link" },
