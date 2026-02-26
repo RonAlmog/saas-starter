@@ -91,7 +91,7 @@ export const HeroHeader = () => {
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <Unauthenticated>
-                  <SignInButton>
+                  <SignInButton mode="modal">
                     <Button
                       asChild
                       variant="outline"
@@ -103,7 +103,7 @@ export const HeroHeader = () => {
                       </Link>
                     </Button>
                   </SignInButton>
-                  <SignUpButton>
+                  <SignUpButton mode="modal">
                     <Button
                       asChild
                       size="sm"
@@ -114,7 +114,7 @@ export const HeroHeader = () => {
                       </Link>
                     </Button>
                   </SignUpButton>
-                  <SignUpButton>
+                  <SignUpButton mode="modal">
                     <Button
                       asChild
                       size="sm"
@@ -126,7 +126,12 @@ export const HeroHeader = () => {
                     </Button>
                   </SignUpButton>
                 </Unauthenticated>
-                <Authenticated>hello</Authenticated>
+                <Authenticated>
+                  <Button>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                  <UserButton />
+                </Authenticated>
               </div>
             </div>
           </div>
