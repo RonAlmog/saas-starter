@@ -11,6 +11,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import { useOptimistic, useTransition } from "react";
 
 export function NavMain({
   items,
@@ -21,6 +23,18 @@ export function NavMain({
     icon?: Icon;
   }[];
 }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [optimisticPath, setOptimisticPath] = useOptimistic(pathname);
+
+  const handleNavigation = (url: string) => {
+    startTransition(() => {
+      setOptimisticPath(url);
+      router.push(url);
+    });
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -44,16 +58,26 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <Link href={item.url} className="flex flow row gap-2">
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            console.log(optimisticPath);
+            console.log(item.url);
+            // use optimisticPath to determine active state for immediate feedback
+            const isActive = optimisticPath === item.url;
+            return (
+              <SidebarMenuItem key={item.title}>
+                <Link href={item.url} className="flex flow row gap-2">
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    isActive={isActive}
+                    onClick={() => handleNavigation(item.url)}
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
