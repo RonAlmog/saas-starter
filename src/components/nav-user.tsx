@@ -25,7 +25,7 @@ export function NavUser({
   const { isMobile } = useSidebar();
 
   const { openUserProfile } = useClerk();
-  const { user: ClerkUser } = useUser();
+  const { user: clerkUser } = useUser();
 
   return (
     <SidebarMenu>
@@ -36,13 +36,20 @@ export function NavUser({
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
           <Avatar className="h-8 w-8 rounded-lg grayscale">
-            <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            <AvatarImage
+              src={clerkUser?.imageUrl || ""}
+              alt={clerkUser?.fullName || "User"}
+            />
+            <AvatarFallback className="rounded-lg">
+              {clerkUser?.fullName?.charAt(0).toUpperCase() || "U"}
+            </AvatarFallback>
           </Avatar>
           <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-medium">{user.name}</span>
+            <span className="truncate font-medium">
+              {clerkUser?.fullName || "User"}
+            </span>
             <span className="text-muted-foreground truncate text-xs">
-              {user.email}
+              {clerkUser?.emailAddresses[0]?.emailAddress || "No email"}
             </span>
           </div>
           <IconDotsVertical className="ml-auto size-4" />
